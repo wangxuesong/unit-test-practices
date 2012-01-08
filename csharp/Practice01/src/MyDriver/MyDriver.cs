@@ -7,7 +7,7 @@ using System.Collections.Concurrent;
 
 namespace MyDriver
 {
-    public sealed class MyDriver
+    public sealed class MyDriver : IMyDriver
     {
         private readonly Random _random = new Random(DateTime.Now.Millisecond);
         private readonly HashSet<int> _queryIds = new HashSet<int>();
