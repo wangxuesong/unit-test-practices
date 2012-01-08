@@ -9,7 +9,7 @@ namespace MyWork
     public class MyConnection
     {
         public readonly static int ReconnectInterval = 3000;
-        private IMyDriver[] drivers;
+        private IMyDriver[] _drivers;
 
         public MyConnection(string[] uris)
         {
@@ -21,20 +21,27 @@ namespace MyWork
         /// <param name="drivers"></param>
         internal MyConnection(IMyDriver[] drivers)
         {
-            this.drivers = drivers;
+            this._drivers = drivers;
         }
 
         public void Open()
         {
-            foreach (var driver in drivers)
+            foreach (var driver in _drivers)
             {
                 driver.Connect();
+                if (Connected != null)
+                {
+                    Connected(this, new EventArgs());
+                }
             }
         }
 
         public void Close()
         {
-            throw new NotImplementedException();
+            foreach (var driver in _drivers)
+            {
+                driver.Close();
+            }
         }
 
         public IDisposable Subscribe(int queryId, IMySubscriber subscriber)
