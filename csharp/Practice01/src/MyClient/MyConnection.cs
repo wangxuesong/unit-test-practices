@@ -2,21 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MyDriver;
 
 namespace MyWork
 {
     public class MyConnection
     {
         public readonly static int ReconnectInterval = 3000;
+        private IMyDriver[] drivers;
 
         public MyConnection(string[] uris)
         {
-            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// for unittest
+        /// </summary>
+        /// <param name="drivers"></param>
+        internal MyConnection(IMyDriver[] drivers)
+        {
+            this.drivers = drivers;
         }
 
         public void Open()
         {
-            throw new NotImplementedException();
+            foreach (var driver in drivers)
+            {
+                driver.Connect();
+            }
         }
 
         public void Close()
